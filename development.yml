@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: oforms_db
+    ports:
+      - "27017-27019:27017-27019"
+    volumes:
+      - mongodb_data_container:/data/db
+    env_file:
+      - ./config/dev.env
+    networks: 
+      - mongodb_network
+
+  mongoadmin:
+    image: mongo-express
+    container_name: oforms_admin
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    environment:
+      # ME_CONFIG_BASICAUTH_USERNAME: express_username
+      # ME_CONFIG_BASICAUTH_PASSWORD: express_password
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rahpal399
+    ports:
+      - 8081:8081
+    networks:
+      - mongodb_network
+
+
+networks:
+  mongodb_network:
+    driver: bridge
+
+volumes:
+  mongodb_data_container:
+  static:
