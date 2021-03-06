@@ -14,4 +14,11 @@ class Config(object):
     SITE_TITLE = "OpenForms"
     SITE_DOMAIN = "http://localhost:8080"
     # MongoEngine config
-    MONGO_URI = "mongodb://admin:rahpal399@localhost:27017/oforms"
+    MONGODB_SETTINGS = {
+        "db": "oforms",
+        "host": "localhost",
+        "port": 27017,
+        "authentication_source": "admin",
+        "username": "admin",
+        "password": "rahpal399",
+    }

@@ -1,7 +1,9 @@
 import os
 
 from flask import Flask
-from flask_pymongo import PyMongo
+from flask_mongoengine import MongoEngine
+
+db = MongoEngine()
 import openforms.views
 
 
@@ -21,4 +23,4 @@ def register_blueprints(app):
 
 
 def register_extensions(app):
-    db = PyMongo(app)
+    db.init_app(app)
