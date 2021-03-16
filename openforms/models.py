@@ -1,4 +1,4 @@
-import datetime
+import datetime, uuid
 from openforms import db
 
 
@@ -8,6 +8,7 @@ class User(db.Document):
 
 
 class Question(db.EmbeddedDocument):
+    sr_no = db.IntField()
     title = db.StringField(required=True)
     ANS_TYPE = {
         "TXT": "Text",
@@ -22,6 +23,7 @@ class Question(db.EmbeddedDocument):
 
 
 class Form(db.Document):
+    codename = db.StringField(default=uuid.uuid4)
     created_at = db.DateTimeField(default=datetime.datetime.utcnow)
     title = db.StringField(required=True)
     description = db.StringField()

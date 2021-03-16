@@ -1,8 +1,19 @@
 from flask import Blueprint
+from flask_restful import Resource
 from openforms.models import User, Form, Question
 
 root = Blueprint("root", __name__, url_prefix="/")
 
+class FormAPI(Resource):
+    def post(self, codename):
+        pass
+    def get(self):
+        return {"Succuess":True}
+        pass
+    def patch(self, codename):
+        pass
+    def delete(self, codename):
+        pass
 
 @root.route("/")
 def hello():
