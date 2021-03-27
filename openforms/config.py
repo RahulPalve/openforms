@@ -26,6 +26,4 @@ class Config(object):
         "password": "rahpal399",
     }
 
-    #OAuth 
-    GOOGLE_CLIENT_ID = "17066300109-7chsvo40lvra1gtln567j34247ptndla.apps.googleusercontent.com"
-    GOOGLE_CLIENT_SECRET = "Xrhb1l_SWoWz2RVXkCg8eiUm"
+
