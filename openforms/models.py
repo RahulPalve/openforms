@@ -23,10 +23,10 @@ class Question(db.EmbeddedDocument):
 
 
 class Form(db.Document):
-    codename = db.StringField(default=uuid.uuid4)
+    codename = db.StringField(default=str(uuid.uuid4()))
     created_at = db.DateTimeField(default=datetime.datetime.utcnow)
     title = db.StringField(required=True)
     description = db.StringField()
-    owner = db.ReferenceField(User)
+    owner = db.ReferenceField(User) #consider LazyReferenceField
     questions = db.EmbeddedDocumentListField(Question)
 
