@@ -7,7 +7,7 @@ class Config(object):
     # Flask app config
     DEBUG = True
     TESTING = True
-    SECRET_KEY = "changeth1s3cr3tKey"
+    SECRET_KEY = os.getenv("SECRET_KEY", "changeth1s3cr3tKeyTh1si5un5@fe")
     
     # Root path of project
     PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -18,12 +18,12 @@ class Config(object):
 
     # MongoEngine config
     MONGODB_SETTINGS = {
-        "db": "oforms",
-        "host": "localhost",
-        "port": 27017,
+        "db": os.getenv("DB_NAME", "oforms"),
+        "host": os.getenv("DB_HOST", "localhost"),
+        "port": os.getenv("DB_PORT", 27017),
         "authentication_source": "admin",
-        "username": "admin",
-        "password": "rahpal399",
+        "username": os.getenv("DB_USERNAME", "admin"),
+        "password": os.getenv("DB_PASSWORD", "rahpal399"),
     }
 
 
