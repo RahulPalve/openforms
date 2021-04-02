@@ -6,18 +6,33 @@ from openforms.auth.utils import get_jwt, login_required
 logger = logging.getLogger(__name__)
 
 class FormAPI(Resource):
-    def get(self):
-        return {"token": get_jwt("60436ca8af409d4dea3acf24")}
 
     @login_required
     def post(self,**kwargs):
         data = request.json
         form = Form(**data)
-        form.owner = User.objects(id=kwargs["user"]).first()
+        form.owner = User.objects.get(id=kwargs["user"])
         form.save()
 
         logger.info(data)
 
         return {"status": data}
 
+class LoginAPI(Resource):
+     def post(self):
+        data = request.json
+
+        try:
+            user = User.objects.get(email=data["email"], password=data["password"])
+            
+        except User.DoesNotExist:
+            return{
+                "status":"error",
+                "msg":"Invalid Credentials, User not found!"
+            }
+        
+        return {    
+            "status":"success",
+            "token": get_jwt(str(user.id))
+            }
 

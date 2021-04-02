@@ -5,6 +5,7 @@ from openforms import db
 class User(db.Document):
     name = db.StringField()
     email = db.EmailField(required=True, unique=True)
+    password = db.StringField(required=True)
 
 
 class Question(db.EmbeddedDocument):
