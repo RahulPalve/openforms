@@ -28,6 +28,5 @@ class Form(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.utcnow)
     title = db.StringField(required=True)
     description = db.StringField()
-    owner = db.ReferenceField(User) #consider LazyReferenceField
+    owner = db.ReferenceField(User)  # consider LazyReferenceField
     questions = db.EmbeddedDocumentListField(Question)
-

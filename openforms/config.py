@@ -8,7 +8,7 @@ class Config(object):
     DEBUG = True
     TESTING = True
     SECRET_KEY = os.getenv("SECRET_KEY", "changeth1s3cr3tKeyTh1si5un5@fe")
-    
+
     # Root path of project
     PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -25,5 +25,3 @@ class Config(object):
         "username": os.getenv("DB_USERNAME", "admin"),
         "password": os.getenv("DB_PASSWORD", "rahpal399"),
     }
-
-
