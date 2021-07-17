@@ -7,7 +7,10 @@ from openforms.auth.utils import get_jwt, login_required
 logger = logging.getLogger(__name__)
 
 
-class FormAPI(Resource):
+class MasterFormAPI(Resource):
+    """
+    Master API for forms used only once while creating new form
+    """
     @login_required
     def post(self, **kwargs):
         data = request.json
@@ -19,6 +22,25 @@ class FormAPI(Resource):
 
         return {"status": data}
 
+class FormAPI(Resource):
+    def get(self, **kwargs):
+        try: 
+            form = Form.objects.get(codename=kwargs["codename"])
+
+            if form == None:
+                raise Exception("Form not found!")
+
+            data = {
+                "created_at": str(form.created_at),
+                "title": form.title,
+                "description": form.description,
+                "questions": str(form.questions)
+            }
+
+            return {"status": "success", "data":data}
+
+        except Exception as e:
+            return {"status": "error", "msg": str(e)}       
 
 class LoginAPI(Resource):
     def post(self):

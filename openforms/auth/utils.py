@@ -18,9 +18,9 @@ def get_jwt(user_id, expire_in=30):
             "iat": datetime.datetime.utcnow(),
             "sub": user_id,
         }
-        return jwt.encode(payload, app.config.get("SECRET_KEY"), algorithm="HS256")
+        return jwt.encode(payload, app.config.get("SECRET_KEY"), algorithm="HS256").decode("utf-8")
     except Exception as e:
-        return e
+        return str(e)
 
 
 def login_required(f):
@@ -39,7 +39,7 @@ def login_required(f):
             user_id = jwt.decode(token, app.config.get("SECRET_KEY"), algorithms=["HS256"])["sub"]
 
         except jwt.ExpiredSignatureError:
-            raise jwt.ExpiredSignatureError
+            return {"status":"error", "data":"Please login again, session expired"}
 
         except Exception as e:
             raise e

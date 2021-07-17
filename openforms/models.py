@@ -12,14 +12,14 @@ class Question(db.EmbeddedDocument):
     sr_no = db.IntField()
     title = db.StringField(required=True)
     ANS_TYPE = {
-        "TXT": "Text",
-        "MCQ": "Multiple Choice",
-        "CB": "Checkbox",
-        "DD": "Dropdown",
-        "DTE": "Date",
-        "TME": "Time",
+        "text": "Text",
+        "mcq": "Multiple Choice",
+        "checkbox": "Checkbox",
+        "dropdown": "Dropdown",
+        "date": "Date",
+        "time": "Time",
     }
-    type = db.StringField(max_length=3, choices=ANS_TYPE.keys(), required=True)
+    type = db.StringField(max_length=8, choices=ANS_TYPE.keys(), required=True)
     description = db.ListField(db.StringField())
 
 
@@ -30,3 +30,8 @@ class Form(db.Document):
     description = db.StringField()
     owner = db.ReferenceField(User)  # consider LazyReferenceField
     questions = db.EmbeddedDocumentListField(Question)
+
+class Answer(db.Document):
+    form = db.ReferenceField(Form)
+    user = db.ReferenceField(User)
+    answers = db.ListField(db.StringField())
