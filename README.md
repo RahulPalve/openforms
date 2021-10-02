@@ -16,7 +16,7 @@ checkout UI for this API@[Openforms Frontend](https://github.com/RahulPalve/open
 
 ### Setup Intructions:
 
-    docker-compose -f development.yml up
+    docker-compose up
 
 use python 3.8.0 venv recommended
 
