@@ -24,7 +24,12 @@ class DevelopmentConfig(object):
         "authentication_source": "admin",
         "username": os.getenv("DB_USERNAME", "admin"),
         "password": os.getenv("DB_PASSWORD", "rahpal399"),
+        "alias": "default",
     }
+    # celery
+    CELERY_RESULT_BACKEND = None
+    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379")
+
 
 class ProductionConfig(object):
     """Base config class."""
@@ -49,9 +54,11 @@ class ProductionConfig(object):
         "authentication_source": "admin",
         "username": os.getenv("PROD_DB_USERNAME", "admin"),
         "password": os.getenv("PROD_DB_PASSWORD", "rahpal399"),
+        "alias": "default",
     }
+    # celery
+    CELERY_RESULT_BACKEND = None
+    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379")
 
-configs = {
-    "development" : DevlopmentConfig,
-    "production" : ProductionConfig
-}
+
+configs = {"development": DevelopmentConfig, "production": ProductionConfig}
