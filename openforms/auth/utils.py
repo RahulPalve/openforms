@@ -4,11 +4,11 @@ import jwt
 from flask import request, abort, current_app as app
 
 
-def get_jwt(user_id, expire_in=30):
+def get_jwt(user_id, expire_in=120):
     """
     param:
         user_id -> string
-        expire_in -> time in minutes, default=30
+        expire_in -> time in minutes, default=120
     return:
         token -> string
     """
@@ -18,7 +18,7 @@ def get_jwt(user_id, expire_in=30):
             "iat": datetime.datetime.utcnow(),
             "sub": user_id,
         }
-        return jwt.encode(payload, app.config.get("SECRET_KEY"), algorithm="HS256").decode("utf-8")
+        return jwt.encode(payload, app.config.get("SECRET_KEY"), algorithm="HS256")
     except Exception as e:
         return str(e)
 
@@ -36,10 +36,13 @@ def login_required(f):
 
         user_id = None
         try:
+            if token == "":
+                raise Exception("JWT token not found!")
+
             user_id = jwt.decode(token, app.config.get("SECRET_KEY"), algorithms=["HS256"])["sub"]
 
         except jwt.ExpiredSignatureError:
-            return {"status":"error", "data":"Please login again, session expired"}
+            return {"status": "error", "data": "Please login again, session expired"}
 
         except Exception as e:
             raise e
