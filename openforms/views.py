@@ -8,6 +8,7 @@ from .auth.utils import get_jwt, login_required
 from .response_validator import ValidateResponse
 from .tasks import tasks
 from . import docs
+from .schema import ResponseSchema, LoginAPISchema, FormQuestionsAPISchema, FormAnswersAPISchema
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,8 @@ class MasterFormAPI(MethodResource, Resource):
     """
 
     @doc(description='Create form', tags=['login required', 'POST', 'All'])
+    @use_kwargs(FormAnswersAPISchema, location=('json'))
+    @marshal_with(ResponseSchema)
     @login_required
     def post(self, **kwargs):
         data = request.json
@@ -33,6 +36,7 @@ docs.register(MasterFormAPI)
 
 class FormAPI(MethodResource, Resource):
     @doc(description='Get form', tags=['GET', 'All'])
+    @marshal_with(ResponseSchema)
     def get(self, **kwargs):
         try:
             form = Form.objects.get(codename=kwargs["codename"])
@@ -50,6 +54,8 @@ docs.register(FormAPI)
 class MasterResponseAPI(MethodResource, Resource):
     @doc(description='Answer form', tags=['login required', 'POST', 'All'])
     @login_required
+    @use_kwargs(FormQuestionsAPISchema, location=('json'))
+    @marshal_with(ResponseSchema)
     def post(self, **kwargs):
         data = request.json
         print(data)
@@ -75,6 +81,7 @@ docs.register(MasterResponseAPI)
 class ResponseAPI(MethodResource, Resource):
     @doc(description='Get Answer', tags=['login required', 'GET', 'All'])
     @login_required
+    @marshal_with(ResponseSchema)
     def get(self, **kwargs):
         try:
             form = Form.objects.get(codename=kwargs["form"])
@@ -82,7 +89,7 @@ class ResponseAPI(MethodResource, Resource):
             ans = Response.objects.get(form=form, user=user).to_json()
             ans = json.loads(ans)
             resp = {"form": form.codename, "answers": ans.get("answers")}
-            return {"status": "success", "data": resp}
+            return {"status": "success", "msg": resp}
 
         except Exception as e:
             return {"status": "error", "msg": str(e)}
@@ -91,6 +98,8 @@ docs.register(ResponseAPI)
 
 class LoginAPI(MethodResource, Resource):
     @doc(description='Login', tags=['POST', 'All'])
+    @use_kwargs(LoginAPISchema, location=('json'))
+    @marshal_with(ResponseSchema)
     def post(self, **kwargs):
         data = request.json
         try:
