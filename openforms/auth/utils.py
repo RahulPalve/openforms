@@ -31,8 +31,8 @@ def login_required(f):
             pass
 
         print(request.headers["Authorization"])
-        data = request.headers["Authorization"].encode("ascii", "ignore")
-        token = data[4:]
+        data = request.headers["Authorization"]
+        token = str.replace(str(data), 'Bearer ', '')
 
         user_id = None
         try:

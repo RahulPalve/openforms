@@ -17,8 +17,21 @@ class MasterFormAPI(MethodResource, Resource):
     """
     Master API for forms used only once while creating new form
     """
-
-    @doc(description='Create form', tags=['login required', 'POST', 'All'])
+    @doc(
+        description='Get Answer',
+        params={
+            'Authorization': {
+                'description':
+                'Authorization HTTP header with JWT access token, like: Authorization: Bearer asdf.qwer.zxcv',
+                'in':
+                'header',
+                'type':
+                'string',
+                'required':
+                True
+            },
+        },
+        tags=['login required', 'POST', 'All'])
     @use_kwargs(FormAnswersAPISchema, location=('json'))
     @marshal_with(ResponseSchema)
     @login_required
@@ -52,7 +65,21 @@ class FormAPI(MethodResource, Resource):
 docs.register(FormAPI)
 
 class MasterResponseAPI(MethodResource, Resource):
-    @doc(description='Answer form', tags=['login required', 'POST', 'All'])
+    @doc(
+        description='Answer form',
+        params={
+            'Authorization': {
+                'description':
+                'Authorization HTTP header with JWT access token, like: Authorization: Bearer asdf.qwer.zxcv',
+                'in':
+                'header',
+                'type':
+                'string',
+                'required':
+                True
+            },
+        },
+        tags=['login required', 'POST', 'All'])
     @login_required
     @use_kwargs(FormQuestionsAPISchema, location=('json'))
     @marshal_with(ResponseSchema)
@@ -79,7 +106,21 @@ class MasterResponseAPI(MethodResource, Resource):
 docs.register(MasterResponseAPI)
 
 class ResponseAPI(MethodResource, Resource):
-    @doc(description='Get Answer', tags=['login required', 'GET', 'All'])
+    @doc(
+        description='Get Answer',
+        params={
+            'Authorization': {
+                'description':
+                'Authorization HTTP header with JWT access token, like: Authorization: Bearer asdf.qwer.zxcv',
+                'in':
+                'header',
+                'type':
+                'string',
+                'required':
+                True
+            },
+        },
+        tags=['login required', 'GET', 'All'])
     @login_required
     @marshal_with(ResponseSchema)
     def get(self, **kwargs):
