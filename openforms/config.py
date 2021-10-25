@@ -14,12 +14,12 @@ class DevelopmentConfig(object):
 
     # Site domain
     SITE_TITLE = "OpenForms"
-    SITE_DOMAIN = "http://localhost:8080"
+    SITE_DOMAIN = "http://localhost"
 
     # MongoEngine config
     MONGODB_SETTINGS = {
         "db": os.getenv("DB_NAME", "oforms"),
-        "host": os.getenv("DB_HOST", "localhost"),
+        "host": os.getenv("DB_HOST", "oforms_db"),
         "port": os.getenv("DB_PORT", 27017),
         "authentication_source": "admin",
         "username": os.getenv("DB_USERNAME", "admin"),
@@ -49,7 +49,7 @@ class ProductionConfig(object):
     # MongoEngine config
     MONGODB_SETTINGS = {
         "db": os.getenv("PROD_DB_NAME", "oforms"),
-        "host": os.getenv("PROD_DB_HOST", "localhost"),
+        "host": os.getenv("PROD_DB_HOST", "oforms_db"),
         "port": os.getenv("PROD_DB_PORT", 27017),
         "authentication_source": "admin",
         "username": os.getenv("PROD_DB_USERNAME", "admin"),

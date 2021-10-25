@@ -1,4 +1,4 @@
-from openforms import rest_api
+from . import rest_api
 from .views import MasterFormAPI, FormAPI, LoginAPI, ResponseAPI, MasterResponseAPI
 
 rest_api.add_resource(MasterFormAPI, "/form/")
