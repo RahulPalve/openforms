@@ -1,8 +1,8 @@
 import json, os
-from openforms.models import Response
-from openforms import celery
-from openforms.integrations.google_sheets import GoogleSheetIntegration
-from openforms.config import configs
+from ..models import Response
+from .. import celery
+from ..integrations.google_sheets import GoogleSheetIntegration
+from ..config import configs
 from mongoengine import connect
 
 connect(**configs[os.environ.get("FLASK_ENV","development")].MONGODB_SETTINGS)

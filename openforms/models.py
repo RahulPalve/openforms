@@ -1,7 +1,7 @@
 import datetime, uuid
 from mongoengine import signals
-from openforms import db
-from openforms import celery
+from . import db
+from . import celery
 
 
 class User(db.Document):

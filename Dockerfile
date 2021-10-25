@@ -15,7 +15,7 @@ ADD openforms /app
 
 # Turn of debugging in production
 ENV FLASK_DEBUG 0
-ENV FLASK_APP openforms
+ENV FLASK_APP .
 ENV FLASK_ENV development
 
 ENTRYPOINT ["python", "-m", "flask", "run", "--host=0.0.0.0"]

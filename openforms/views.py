@@ -1,19 +1,23 @@
 import logging, json
 from flask import request
 from flask_restful import Resource
-from openforms.models import Response, User, Form, Question
-from openforms.auth.utils import get_jwt, login_required
-from openforms.response_validator import ValidateResponse
-from openforms.tasks import tasks
+from flask_apispec import marshal_with, doc, use_kwargs
+from flask_apispec.views import MethodResource
+from .models import Response, User, Form, Question
+from .auth.utils import get_jwt, login_required
+from .response_validator import ValidateResponse
+from .tasks import tasks
+from . import docs
 
 logger = logging.getLogger(__name__)
 
 
-class MasterFormAPI(Resource):
+class MasterFormAPI(MethodResource, Resource):
     """
     Master API for forms used only once while creating new form
     """
 
+    @doc(description='Create form', tags=['login required', 'POST', 'All'])
     @login_required
     def post(self, **kwargs):
         data = request.json
@@ -25,8 +29,10 @@ class MasterFormAPI(Resource):
 
         return {"status": form.codename}
 
+docs.register(MasterFormAPI)
 
-class FormAPI(Resource):
+class FormAPI(MethodResource, Resource):
+    @doc(description='Get form', tags=['GET', 'All'])
     def get(self, **kwargs):
         try:
             form = Form.objects.get(codename=kwargs["codename"])
@@ -39,8 +45,10 @@ class FormAPI(Resource):
         except Exception as e:
             return {"status": "error", "msg": str(e)}
 
+docs.register(FormAPI)
 
-class MasterResponseAPI(Resource):
+class MasterResponseAPI(MethodResource, Resource):
+    @doc(description='Answer form', tags=['login required', 'POST', 'All'])
     @login_required
     def post(self, **kwargs):
         data = request.json
@@ -62,8 +70,10 @@ class MasterResponseAPI(Resource):
             else:
                 return {"status": "error", "msg": validated_data.errors}
 
+docs.register(MasterResponseAPI)
 
-class ResponseAPI(Resource):
+class ResponseAPI(MethodResource, Resource):
+    @doc(description='Get Answer', tags=['login required', 'GET', 'All'])
     @login_required
     def get(self, **kwargs):
         try:
@@ -77,9 +87,11 @@ class ResponseAPI(Resource):
         except Exception as e:
             return {"status": "error", "msg": str(e)}
 
+docs.register(ResponseAPI)
 
-class LoginAPI(Resource):
-    def post(self):
+class LoginAPI(MethodResource, Resource):
+    @doc(description='Login', tags=['POST', 'All'])
+    def post(self, **kwargs):
         data = request.json
         try:
             user = User.objects.get(email=str(data["email"]), password=str(data["password"]))
@@ -89,4 +101,5 @@ class LoginAPI(Resource):
         except Exception as e:
             return {"status": "error", "msg": str(e)}
 
-        return {"status": "success", "token": get_jwt(str(user.id))}
+        return {"status": "success", "msg": get_jwt(str(user.id))}
+docs.register(LoginAPI)
