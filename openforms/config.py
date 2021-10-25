@@ -19,7 +19,7 @@ class DevelopmentConfig(object):
     # MongoEngine config
     MONGODB_SETTINGS = {
         "db": os.getenv("DB_NAME", "oforms"),
-        "host": os.getenv("DB_HOST", "oforms_db"),
+        "host": os.getenv("DB_HOST", "localhost"),
         "port": os.getenv("DB_PORT", 27017),
         "authentication_source": "admin",
         "username": os.getenv("DB_USERNAME", "admin"),
