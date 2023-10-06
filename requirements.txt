@@ -69,3 +69,4 @@ WTForms==2.3.3
 flask-apispec==0.11.0
 apispec==5.1.1
 marshmallow==3.14.0
+gunicorn==21.2.0

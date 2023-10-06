@@ -2,8 +2,6 @@ import os
 from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_restful import Api
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
 from flask_apispec import FlaskApiSpec
 from celery import Celery
 from .tasks import make_celery
@@ -21,16 +19,7 @@ celery = Celery(
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(configs[env])
-    app.config.update({
-            'APISPEC_SPEC': APISpec(
-                title='openforms',
-                version='v1',
-                openapi_version='2.0',
-                plugins=[MarshmallowPlugin()],
-            ),
-            'APISPEC_SWAGGER_URL': '/swagger/',
-            'APISPEC_SWAGGER_UI_URL': '/docs/',
-        })
+
     register_extensions(app)
     global celery
     celery = make_celery(app)

@@ -1,10 +1,13 @@
 import os
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin            
 
 
 class DevelopmentConfig(object):
     """Base config class."""
 
     # Flask app config
+    ENV = 'development'
     DEBUG = True
     TESTING = True
     SECRET_KEY = os.getenv("SECRET_KEY", "changeth1s3cr3tKeyTh1si5un5@fe")
@@ -30,13 +33,23 @@ class DevelopmentConfig(object):
     CELERY_RESULT_BACKEND = None
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379")
 
+    APISPEC_SPEC = APISpec(
+                            title='openforms',
+                            version='v1',
+                            openapi_version='2.0',
+                            plugins=[MarshmallowPlugin()],
+            )
+    APISPEC_SWAGGER_URL = '/swagger/'
+    APISPEC_SWAGGER_UI_URL =  '/docs/'
+
 
 class ProductionConfig(object):
     """Base config class."""
 
     # Flask app config
-    DEBUG = True
-    TESTING = True
+    ENV = 'production'
+    DEBUG = False
+    TESTING = False
     SECRET_KEY = os.getenv("PROD_SECRET_KEY", "changeth1s3cr3tKeyTh1si5un5@fe")
 
     # Root path of project
@@ -59,6 +72,15 @@ class ProductionConfig(object):
     # celery
     CELERY_RESULT_BACKEND = None
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379")
+
+    APISPEC_SPEC = APISpec(
+                            title='openforms',
+                            version='v1',
+                            openapi_version='2.0',
+                            plugins=[MarshmallowPlugin()],
+            )
+    APISPEC_SWAGGER_URL = '/swagger/'
+    APISPEC_SWAGGER_UI_URL =  '/docs/'
 
 
 configs = {"development": DevelopmentConfig, "production": ProductionConfig}

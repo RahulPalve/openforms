@@ -34,10 +34,9 @@ services:
   web:
     build:
       dockerfile: Dockerfile
-      context: .
     container_name: oforms_web
     ports:
-      - 80:5000
+      - 80:8000
     networks:
       - mongodb_network
     depends_on:

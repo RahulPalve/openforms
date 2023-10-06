@@ -11,14 +11,14 @@ COPY ./requirements.txt /app
 RUN pip install -r requirements.txt
 
 # Copy the source code
-ADD openforms /app
+ADD openforms /app/openforms
+COPY ./wsgi.py /app
 
 # Turn of debugging in production
-ENV FLASK_DEBUG 0
-ENV FLASK_APP .
+ENV FLASK_DEBUG 1
 ENV FLASK_ENV development
 
-ENTRYPOINT ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT ["python", "-m", "gunicorn", "-w", "4", "--bind", "0.0.0.0:8000", "wsgi:app"]
 
 LABEL maintainer="Rahul Palve <hi.rahulpalve@gmail.com>"
 # ADD: wsgi and nginx
