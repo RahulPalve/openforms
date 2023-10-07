@@ -1,0 +1,24 @@
+name: Deploy on EC2
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+      name: Deploy
+      runs-on: ubuntu-latest
+      steps:
+        - name: Logging in EC2
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST_DNS }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            
+            script: |
+              cd openforms
+              git pull origin master
+              docker-compose down web
+              docker-compose build web
+              docker-compose up -d web
