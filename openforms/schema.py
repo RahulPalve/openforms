@@ -1,6 +1,3 @@
-import logging, json
-from flask import request
-from flask_restful import Resource
 from marshmallow import Schema, fields
 
 class ResponseSchema(Schema):

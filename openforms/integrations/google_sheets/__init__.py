@@ -1,6 +1,4 @@
 import gspread
-from oauth2client import client
-
 
 class GoogleSheetIntegration:
     def __init__(self, sheet_id):

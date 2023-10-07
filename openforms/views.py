@@ -3,10 +3,9 @@ from flask import request
 from flask_restful import Resource
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
-from .models import Response, User, Form, Question
+from .models import Response, User, Form
 from .auth.utils import get_jwt, login_required
 from .response_validator import ValidateResponse
-from .tasks import tasks
 from . import docs
 from .schema import ResponseSchema, LoginAPISchema, FormQuestionsAPISchema, FormAnswersAPISchema
 
