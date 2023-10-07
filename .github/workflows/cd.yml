@@ -19,6 +19,6 @@ jobs:
             script: |
               cd openforms
               git pull origin master
-              docker-compose down web
-              docker-compose build web
-              docker-compose up -d web
+              docker compose down web
+              docker compose build web
+              docker compose up -d web
